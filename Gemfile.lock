@@ -1,8 +1,21 @@
 --- 
-hash: 2705299cbd9e2aa3e0c9405f034830b9b738426e
-sources: 
-- Rubygems: 
-    uri: http://rubygems.org
+dependencies: 
+  activerecord: 
+    group: 
+    - :default
+    version: = 3.0.0.beta3
+  sqlite3-ruby: 
+    group: 
+    - :test
+    version: ">= 0"
+  rspec: 
+    group: 
+    - :test
+    version: = 2.0.0.beta.11
+  jeweler: 
+    group: 
+    - :dev
+    version: ">= 0"
 specs: 
 - builder: 
     version: 2.1.2
@@ -22,6 +35,16 @@ specs:
     version: 3.0.0.beta3
 - diff-lcs: 
     version: 1.1.2
+- json_pure: 
+    version: 1.4.3
+- gemcutter: 
+    version: 0.5.0
+- git: 
+    version: 1.2.5
+- rubyforge: 
+    version: 2.0.4
+- jeweler: 
+    version: 1.4.0
 - rspec-core: 
     version: 2.0.0.beta.11
 - rspec-expectations: 
@@ -32,16 +55,7 @@ specs:
     version: 2.0.0.beta.11
 - sqlite3-ruby: 
     version: 1.3.0
-dependencies: 
-  activerecord: 
-    version: = 3.0.0.beta3
-    group: 
-    - :default
-  sqlite3-ruby: 
-    version: ">= 0"
-    group: 
-    - :default
-  rspec: 
-    version: = 2.0.0.beta.11
-    group: 
-    - :test
+hash: 2a155ed7a48ee318ea89b25b541ab5d442331211
+sources: 
+- Rubygems: 
+    uri: http://rubygems.org
