@@ -10,7 +10,7 @@ begin
     gem.email = "tjsingleton@vantagestreet.com"
     gem.homepage = "http://github.com/tjsingleton/mood_swing"
     gem.authors = ["TJ Singleton"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+#    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -18,11 +18,12 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
+require 'rspec/core'
+require 'rspec/core/rake_task'
+
+desc "Run the code examples in spec"
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = "./spec/**/*_spec.rb"
 end
 
 begin

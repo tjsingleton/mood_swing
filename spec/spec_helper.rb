@@ -6,6 +6,7 @@ require "bundler"
 Bundler.setup
 require "active_record"
 require "mood_swing"
+require "rspec"
 
 ActiveRecord::Base.establish_connection(
     :adapter => "sqlite3",
