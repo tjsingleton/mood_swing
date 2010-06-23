@@ -22,3 +22,4 @@ pkg
 .bundle
 coverage
 rdoc
+moodswing-*.gem
