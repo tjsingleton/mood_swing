@@ -25,7 +25,7 @@ class Dog < ActiveRecord::Base
   mood_trigger 'breed'
 
   def bark
-    puts 'woof'
+    'woof'
   end
 
   module HoundExtension
