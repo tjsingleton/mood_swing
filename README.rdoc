@@ -1,17 +1,36 @@
-= mood_swing
+= Mood Swing
 
-Description goes here.
+As we've been taught, conditional statements can be a code smell and a good way to clean them up is polymorphism. I've
+found that with rails coupling the persistence layer and the business logic sometimes the standard form of inheritance-
+based polymorphism is awkward or not feasible. However, Ruby with it's dynamic object model can provide a form of
+inheritance via extending instances by mixing in modules dynamically. Mood Swing embraces this and provides a convenient
+means of doing it.
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+== Usage
 
-== Copyright
+You simply define the class macro mood_trigger and pass it the attribute in which will be used to load the module. The
+value of the attribute will be inflected with .classify and then a module matching "#{value}Extension" will be loaded if
+it is available with in the class namespace. Given the mood_trigger attribute is breed, with a value of hound, in the
+class named Dog, then the module would be named Dog::HoundExtension.
 
-Copyright (c) 2010 TJ Singleton. See LICENSE for details.
+  class Dog < ActiveRecord::Base
+    mood_trigger 'breed'
+
+    def bark
+      'woof'
+    end
+
+    module HoundExtension
+      def bark
+        'Hoooooowl'
+      end
+    end
+  end
+
+Now whenever you load a dog with the breed set to hound, or if you assign the breed to hound, it will bark out "Hoooooowl"
+
+Optionally, you can supply a writer attribute if the writer is not the same as the reader. This is the case with with
+polymorphic associations.
+
+  belongs_to 'body', :polymorphic => true
+  mood_trigger 'body_type', :writer => 'body'
