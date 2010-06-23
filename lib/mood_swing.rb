@@ -56,7 +56,6 @@ module MoodSwing
     end
 
     class_eval do
-      puts instance_methods
       alias_method_chain "#{options[:writer]}=", 'extension'
       after_initialize "#{reader}_extension!"
     end
