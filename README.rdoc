@@ -6,6 +6,14 @@ based polymorphism is awkward or not feasible. However, Ruby with it's dynamic o
 inheritance via extending instances by mixing in modules dynamically. Mood Swing embraces this and provides a convenient
 means of doing it.
 
+== Download
+
+Github: http://github.com/tjsingleton/mood_swing
+
+Gem:
+
+  gem install mood_swing
+
 == Usage
 
 You simply define the class macro mood_trigger and pass it the attribute in which will be used to load the module. The
