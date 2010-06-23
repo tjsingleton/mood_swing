@@ -62,3 +62,7 @@ module MoodSwing
   end
 end
 
+ActiveSupport.on_load(:active_record) do
+  extend MoodSwing
+end
+

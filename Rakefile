@@ -1,19 +1,24 @@
-require 'rubygems'
-require 'rake'
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "mood_swing"
-    gem.summary = %Q{Polymorphic behavior based on the value of an attribute}
-    gem.description = %Q{Allows polymorphic behavior based on the value of an attribute by including a module dynamically.}
-    gem.email = "tjsingleton@vantagestreet.com"
-    gem.homepage = "http://github.com/tjsingleton/mood_swing"
-    gem.authors = ["TJ Singleton"]
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "mood_swing #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+require "bundler"
+Bundler.setup
+
+gemspec = eval(File.read("mood_swing.gemspec"))
+
+desc "Build gem"
+task :build => "#{gemspec.full_name}.gem"
+
+file "#{gemspec.full_name}.gem" => gemspec.files + ["mood_swing.gemspec"] do
+  system "gem build mood_swing.gemspec"
+  system "gem install mood_swing-#{MoodSwing::VERSION}.gem"
 end
 
 begin
@@ -35,14 +40,4 @@ begin
   task :default => :spec
 rescue LoadError
   puts "RSpec require for testing."
-end
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "mood_swing #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
 end

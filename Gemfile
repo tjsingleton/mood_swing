@@ -6,7 +6,3 @@ group :test do
   gem 'sqlite3-ruby'
   gem 'rspec', '2.0.0.beta.11'
 end
-
-group :dev do
-  gem 'jeweler'
-end

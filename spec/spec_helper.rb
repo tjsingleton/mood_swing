@@ -21,7 +21,6 @@ end
 
 class Dog < ActiveRecord::Base
   define_attribute_methods
-  extend MoodSwing
 
   mood_trigger 'breed'
 
