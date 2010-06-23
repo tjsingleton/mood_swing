@@ -5,43 +5,37 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "mood_swing"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Polymorphic behavior based on the value of an attribute}
+    gem.description = %Q{Allows polymorphic behavior based on the value of an attribute by including a module dynamically.}
     gem.email = "tjsingleton@vantagestreet.com"
     gem.homepage = "http://github.com/tjsingleton/mood_swing"
     gem.authors = ["TJ Singleton"]
-#    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'rspec/core'
-require 'rspec/core/rake_task'
-
-desc "Run the code examples in spec"
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.pattern = "./spec/**/*_spec.rb"
-end
-
 begin
-  require 'rcov/rcovtask'
-  Rcov::RcovTask.new do |test|
-    test.libs << 'test'
-    test.pattern = 'test/**/test_*.rb'
-    test.verbose = true
+  require 'rspec/core'
+  require 'rspec/core/rake_task'
+
+  desc "Run the code examples in spec"
+  RSpec::Core::RakeTask.new(:spec) do |t|
+    t.pattern = "./spec/**/*_spec.rb"
   end
+
+  desc "Run all examples with RCov"
+  RSpec::Core::RakeTask.new('spec:rcov') do |t|
+    t.pattern = "./spec/**/*_spec.rb"
+    t.rcov = true
+    t.rcov_opts = ['--exclude', 'spec']
+  end
+
+  task :default => :spec
 rescue LoadError
-  task :rcov do
-    abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
-  end
+  puts "RSpec require for testing."
 end
-
-task :test => :check_dependencies
-
-task :default => :test
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
