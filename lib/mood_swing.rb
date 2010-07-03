@@ -39,25 +39,41 @@ module MoodSwing
   #
   # belongs_to 'body', :polymorphic => true
   # mood_trigger 'body_type', :writer => 'body'
+  #
+  # You can pass it an option, :module_format. The default is "%sExtension"
   def mood_trigger(reader, options ={})
     options[:writer] ||= reader
+    options[:module_format] ||= "%sExtension"
 
-    define_method("#{options[:writer]}_with_extension=") do |value|
-      self.send "#{options[:writer]}_without_extension=", value
-      self.send "#{reader}_extension!"
-      self.send reader
-    end
-
-    define_method("#{reader}_extension!") do
-      begin
-        self.extend "#{self.class}::#{self[reader].classify}Extension".constantize
-      rescue NameError
-      end
-    end
+    define_mood_writer(options[:writer], reader)
+    define_mood_loader(options[:module_format], reader)
 
     class_eval do
       alias_method_chain "#{options[:writer]}=", 'extension'
       after_initialize "#{reader}_extension!"
+    end
+  end
+
+  def find_module(name)
+    self.const_defined?(name) ? self.const_get(name) : self.const_missing(name)
+  rescue NameError
+  end
+
+  def define_mood_writer(writer, reader)
+    define_method("#{writer}_with_extension=") do |value|
+      self.send "#{writer}_without_extension=", value
+      self.send "#{reader}_extension!"
+      self.send reader
+    end
+  end
+
+  def define_mood_loader(module_format, reader)
+    define_method("#{reader}_extension!") do
+      return unless kind = self[reader]
+      extension_name = module_format % kind.classify
+      if extension = self.class.find_module(extension_name)
+        self.extend extension
+      end
     end
   end
 end
@@ -65,4 +81,3 @@ end
 ActiveSupport.on_load(:active_record) do
   extend MoodSwing
 end
-
