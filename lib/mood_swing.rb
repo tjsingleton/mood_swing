@@ -41,17 +41,17 @@ module MoodSwing
   # mood_trigger 'body_type', :writer => 'body'
   #
   # You can pass it an option, :module_format. The default is "%sExtension"
-  def mood_trigger(reader, options ={})
-    options[:writer] ||= reader
-    options[:module_format] ||= "%sExtension"
+  def mood_trigger(reader, _options={})
+    options = {
+        :writer => reader,
+        :module_format => "%sExtension"
+    }.update(_options)
 
     define_mood_writer(options[:writer], reader)
     define_mood_loader(options[:module_format], reader)
 
-    class_eval do
-      alias_method_chain "#{options[:writer]}=", 'extension'
-      after_initialize "#{reader}_extension!"
-    end
+    alias_method_chain "#{options[:writer]}=", 'extension'
+    after_initialize "#{reader}_extension!"
   end
 
   def find_module(name)
