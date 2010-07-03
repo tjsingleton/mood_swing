@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Dog do
-  context "the trigger has not been triggered" do
+  context "when there is not an extension" do
     it "does not howl" do
       Dog.new.bark.should == "woof"
     end
@@ -11,22 +11,24 @@ describe Dog do
     end
   end
 
-  context "triggering the trigger" do
-    it "triggers when initialized" do
+  context "when there is an extension" do
+    it "howls when the breed set at creation" do
       Dog.new(:breed => "Hound").bark.should == "Hoooooowl"
     end
 
-    it "triggers when found" do
+    it "howls when the breed is set and the record is found" do
       Dog.new(:breed => "Hound").save
       dog = Dog.where(:breed => "Hound").first
       dog.bark.should == "Hoooooowl"
       dog.destroy
     end
 
-    it "triggers when assigned" do
+    it "howls when the breed is set through the reader" do
       dog = Dog.new
       dog.breed = "Hound"
       dog.bark.should == "Hoooooowl"
     end
   end
 end
+
+# Test alternative writers, modules.
